@@ -45,3 +45,12 @@ const BALLONS: { [key: string]: BallonI } = {
 };
 
 // Ваш код здесь
+
+(async () => {
+	const filteredPublickBallons = Object.values(BALLONS).filter((ballon) => ballon.isPublic);
+
+	const amount = await Promise.all(filteredPublickBallons.map(ballon => fetchBallonAmount(ballon.id)));
+
+	const total = amount.reduce((acc, current) => acc + current, 0);
+	console.log(total)
+})

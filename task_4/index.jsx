@@ -1,48 +1,47 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 
-export const Block1 = ({ mouseEnterCallbak, imgSrc, imgAlt }) => {
-  const [isActive, setActive] = useState(false);
+type HocBlockProps = {
+  mouseEnterCallback: () => void;
+  children: ReactNode;
+}
+
+export const HocBlock = ({mouseEnterCallback, children}: HocBlockProps) => {
+  const [isActive, setIsActive] = useState(false);
 
   const mouseEnterHandler = () => {
-    setActive(true);
-    mouseEnterCallbak();
+    setIsActive(true);
+    mouseEnterCallback();
   };
 
   return (
-    <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
+      <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
+        {children}
+      </div>
+  )
+}
+
+export const Block1 = ({ mouseEnterCallback, imgSrc, imgAlt }) => {
+  return (
+    <HocBlock mouseEnterCallback={mouseEnterCallback}>
       <img src={imgSrc} alt={imgAlt} />
-    </div>
+    </HocBlock>
   );
 };
 
-export const Block2 = ({ mouseEnterCallbak, content }) => {
-  const [isActive, setActive] = useState(false);
-
-  const mouseEnterHandler = () => {
-    setActive(true);
-    mouseEnterCallbak();
-  };
-
+export const Block2 = ({ mouseEnterCallback, content }) => {
   return (
-    <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
+    <HocBlock mouseEnterCallback={mouseEnterCallback}>
       <p>{content}</p>
-    </div>
+    </HocBlock>
   );
 };
 
-export const Block3 = ({ mouseEnterCallbak, userData }) => {
-  const [isActive, setActive] = useState(false);
-
-  const mouseEnterHandler = () => {
-    setActive(true);
-    mouseEnterCallbak();
-  };
-
+export const Block3 = ({ mouseEnterCallback, userData }) => {
   return (
-    <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
+    <HocBlock mouseEnterCallback={mouseEnterCallback}>
       <address>
         country: {userData.country}, street: {userData.street}
       </address>
-    </div>
+    </HocBlock>
   );
 };
